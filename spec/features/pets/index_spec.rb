@@ -94,13 +94,11 @@ RSpec.describe 'the pets index' do
     fill_in 'City', with: 'City A'
     fill_in 'State', with: 'XX'
     fill_in 'Zip Code', with: '12345'
-    fill_in 'Why would you make a good home?', with: 'because'
 
     click_button
 
     expect(page).to have_content('Greg')
     expect(page).to have_content('123 example st., City A, XX 12345')
-    expect(page).to have_content('because')
     expect(page).to have_content('In Progress') 
   end
 end

@@ -9,7 +9,6 @@ RSpec.describe 'new application page' do
     expect(page).to have_content('City:')
     expect(page).to have_content('State:')
     expect(page).to have_content('Zip Code:')
-    expect(page).to have_content('Why would you make a good homne?')
 
     expect(page).to have_button('Submit')
   end

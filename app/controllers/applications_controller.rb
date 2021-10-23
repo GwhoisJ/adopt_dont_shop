@@ -13,7 +13,6 @@ class ApplicationsController < ApplicationController
     application = Application.new({
        name: params[:name],
        address: address,
-       description: params[:description],
        status: "In Progress"
        })
     
