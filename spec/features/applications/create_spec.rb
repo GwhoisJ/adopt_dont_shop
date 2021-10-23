@@ -10,6 +10,6 @@ RSpec.describe 'new application page' do
     expect(page).to have_content('State:')
     expect(page).to have_content('Zip Code:')
 
-    expect(page).to have_button('Submit')
+    expect(page).to have_button
   end
 end

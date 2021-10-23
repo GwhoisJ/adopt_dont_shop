@@ -4,7 +4,6 @@ class ApplicationsController < ApplicationController
   end
 
   def new
-    @application = Application.find(params[:id])
   end
 
   def create
