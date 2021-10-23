@@ -8,7 +8,7 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    address = params[:street_address] + " ," + params[:city] + " ," + params[:state] + " " + params[:zip_code]
+    address = params[:street_address] + ", " + params[:city] + ", " + params[:state] + " " + params[:zip_code]
 
     application = Application.new({
        name: params[:name],
