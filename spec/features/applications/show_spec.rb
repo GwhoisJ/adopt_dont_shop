@@ -36,11 +36,13 @@ RSpec.describe 'show page for applications' do
 
     visit "/pets"
 
-    fill_in 'Search', with: "Ba"
+    fill_in 'search', with: "Ba"
     click_on("Search")
 
     expect(page).to have_content(pet_1.name)
     expect(page).to have_content(pet_2.name)
     expect(page).to_not have_content(pet_3.name)
   end
+
+  it 'has an adopt a pet option'
 end
