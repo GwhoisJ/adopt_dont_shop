@@ -1,6 +1,7 @@
 class ApplicationsController < ApplicationController
   def show
     @application = Application.find(params[:id])
+    @pets = Application.search(params[:search])
   end
 
   def new
@@ -14,19 +15,13 @@ class ApplicationsController < ApplicationController
       address = nil
     end
 
-    if params[:name] != "" && address != nil
-      application = Application.new({
-        name: params[:name],
-        address: address,
-        status: "In Progress"
-        })
-    else
-      application = Application.new({ name: nil })
-    end
-    # binding.pry
-    
-    if application.status != nil
-      application.save
+    application = Application.new({
+      name: params[:name],
+      address: address,
+      status: "In Progress"
+      })
+
+    if application.save
       redirect_to "/applications/#{application.id}"
     else
       redirect_to "/applications/new"
