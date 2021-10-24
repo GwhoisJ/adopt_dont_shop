@@ -7,17 +7,31 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    address = params[:street_address] + ", " + params[:city] + ", " + params[:state] + " " + params[:zip_code]
-
-    application = Application.new({
-       name: params[:name],
-       address: address,
-       status: "In Progress"
-       })
     
-    application.save
+    if params[:street_address] != "" && params[:city] != "" && params[:state] != "" && params[:zip_code] != ""
+      address = params[:street_address] + ", " + params[:city] + ", " + params[:state] + " " + params[:zip_code]
+    else
+      address = nil
+    end
 
-    redirect_to "/applications/#{application.id}"
+    if params[:name] != "" && address != nil
+      application = Application.new({
+        name: params[:name],
+        address: address,
+        status: "In Progress"
+        })
+    else
+      application = Application.new({ name: nil })
+    end
+    # binding.pry
+    
+    if application.status != nil
+      application.save
+      redirect_to "/applications/#{application.id}"
+    else
+      redirect_to "/applications/new"
+      flash[:alert] = "Error: Fields must be filled out"
+    end
   end
 
   # private
