@@ -3,6 +3,8 @@ class ApplicationsController < ApplicationController
     @application = Application.find(params[:id])
     if params[:search] != nil
       @pets = Pet.search(params[:search])
+    elsif params[:pet] != nil
+      ApplicationPet.create!(application: Application.find(params[:id]), pet: Pet.find(params[:pet]))
     end
   end
 

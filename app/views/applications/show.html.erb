@@ -3,23 +3,33 @@
 <h4>Address: </h4><%=@application.address%>
 <h4>Description: </h4><%=@application.description%>
 <h4>Pets: </h4>
-<% @application.pets.each do |pet| %>
-  <a href="/pets/<%=pet.id%>"><%=pet.name%> </a>
-<% end %>
+<div id="applications-pets">
+  <% @application.pets.each do |pet| %>
+    <a href="/pets/<%=pet.id%>"><%=pet.name%></a><br/>
+  <% end %>
+</div>
 <h4>Status: </h4><%=@application.status%><br/><br/>
 
-<%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
-  <%= f.label :search %>
-  <%= f.text_field :search %>
-  <%= f.submit "Search" %>
-<% end %>
- 
+<%# <div id="search"> %>
+  <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
+    <%= f.label :search, "Add a Pet to this Application" %>
+    <%= f.text_field :search %>
+    <%= f.submit "Submit" %>
+  <% end %>
+<%# </div> %>
+
 <% if @pets != nil %>
-  <% @pets.each do |pet| %>
-    <h3><%= pet.name %></h3>
-    <p>Age: <%= pet.age %></p>
-    <p>Breed: <%= pet.breed %></p>
-    <p>Adoptable: <%= pet.adoptable %></p>
-    <p>You can find <%= pet.name %> at <%= pet.shelter_name %>!</p>
+  <% @pets.each_with_index do |pet, index| %>
+    <div id="pet-<%=index%>">
+      <h3><%= pet.name %></h3>
+      <p>Age: <%= pet.age %></p>
+      <p>Breed: <%= pet.breed %></p>
+      <p>Adoptable: <%= pet.adoptable %></p>
+      <p>You can find <%= pet.name %> at <%= pet.shelter_name %>!</p>
+      <form action="/applications/<%=@application.id%>">
+        <input type="hidden" id="pet" name="pet" value="<%= pet.id %>" />
+        <input type="submit" value="Adopt this Pet">
+      </form>
+    </div>
   <%end%>
 <% end %>
