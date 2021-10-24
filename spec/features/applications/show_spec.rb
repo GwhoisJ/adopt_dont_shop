@@ -5,7 +5,7 @@ RSpec.describe 'show page for applications' do
     @application = Application.create(name: 'Greg',
                                       address: '123 streetname',
                                       description: 'I good pet owner',
-                                      status: 'Pending')
+                                      status: 'In Progress')
     
     @shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
     
@@ -63,5 +63,29 @@ RSpec.describe 'show page for applications' do
     expect(current_path).to eq("/applications/#{@application.id}")
 
     expect(@application.pets).to include(pet_1)
+  end
+
+  it 'can be submitted' do
+    shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+    pet_1 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter.id)
+
+    visit "/applications/#{@application.id}"
+
+    fill_in 'Add a Pet to this Application', with: "Ba"
+    click_on("Submit")
+
+    click_on("Adopt this Pet")
+
+    fill_in 'description', with: 'example'
+    click_on("Submit Application")
+
+    expect(current_path).to eq("/applications/#{@application.id}")
+    expect(page).to have_content("example")
+    expect(page).to have_content("Pending")
+
+    expect(page).to_not have_content("In Progress")
+    expect(page).to_not have_content("Add a Pet to this Application")
+    expect(page).to_not have_content("Submit Your Application")
+    expect(page).to_not have_button('Submit')
   end
 end

@@ -12,7 +12,6 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    
     if params[:street_address] != "" && params[:city] != "" && params[:state] != "" && params[:zip_code] != ""
       address = params[:street_address] + ", " + params[:city] + ", " + params[:state] + " " + params[:zip_code]
     else
@@ -31,6 +30,14 @@ class ApplicationsController < ApplicationController
       redirect_to "/applications/new"
       flash[:alert] = "Error: Fields must be filled out"
     end
+  end
+
+  def update
+    application = Application.find(params[:id])
+    
+    application.update(description: params[:description], status: "Pending")
+
+    redirect_to "/applications/#{application.id}"
   end
 
   # private
