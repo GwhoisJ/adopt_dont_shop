@@ -1,3 +1,5 @@
+<h4 id="status">Status: <%= @application.status %></h4>
+
 <% @pets.each_with_index do |pet, index| %>
   <div id="pet-<%= index %>">
     <%= pet.name %>:
