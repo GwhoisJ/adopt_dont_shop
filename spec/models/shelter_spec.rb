@@ -47,6 +47,25 @@ RSpec.describe Shelter, type: :model do
         expect(Shelter.order_by_reverse_name).to eq([@shelter_2, @shelter_3, @shelter_1])
       end
     end
+
+    describe '#shelters_with_applications' do
+      it 'returns only shelters with pending applications' do
+        application_1 = Application.create(name: 'Greg',
+          address: '123 streetname',
+          description: 'I good pet owner',
+          status: 'Pending')
+        application_2 = Application.create(name: 'Bob',
+                                          address: '123 streetname',
+                                          status: 'In Progress')
+
+        ApplicationPet.create(application: application_1, pet: @pet_2)
+        ApplicationPet.create(application: application_2, pet: @pet_3)
+
+        expect(Shelter.shelters_with_applications).to include(@shelter_1)        
+        expect(Shelter.shelters_with_applications).to_not include(@shelter_2)        
+        expect(Shelter.shelters_with_applications).to_not include(@shelter_3)        
+      end
+    end
   end
 
   describe 'instance methods' do

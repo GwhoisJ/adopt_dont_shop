@@ -20,6 +20,16 @@ class Shelter < ApplicationRecord
     find_by_sql("SELECT * FROM shelters ORDER BY name DESC")
   end
 
+  def self.shelters_with_applications
+    self.select do |shelter|
+      shelter.pets.any? do |pet|
+        pet.applications.any? do |application|
+          application.status == "Pending"
+        end
+      end
+    end
+  end
+
   def pet_count
     pets.count
   end
