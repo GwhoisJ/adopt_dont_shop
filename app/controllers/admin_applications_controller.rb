@@ -20,5 +20,21 @@ class AdminApplicationsController < ApplicationController
         end
       end
     end
+
+    if application_approved
+      @application.update(status: "Approved")
+    elsif application_approved == false
+      @application.update(status: "Rejected")
+    end
+  end
+
+  def application_approved
+    if @pets.any? {|pet| pet.denied_applications(@application.id)}
+      false
+    elsif @pets.all {|pet| pet.approved_applications(@application.id)}
+      true
+    else
+      nil
+    end
   end
 end

@@ -24,7 +24,8 @@ RSpec.describe 'admin application show page' do
     end
 
     within('#pet-0') do
-      expect(page).to_not have_button
+      expect(page).to_not have_button("Approve this pet")
+      expect(page).to_not have_button("Reject this pet")
       expect(page).to have_content("Approved!")
     end
   end
@@ -37,8 +38,25 @@ RSpec.describe 'admin application show page' do
     end
 
     within('#pet-0') do
-      expect(page).to_not have_button
+      expect(page).to_not have_button("Approve this pet")
+      expect(page).to_not have_button("Reject this pet")
       expect(page).to have_content("Rejected.")
+    end
+  end
+
+  it 'can approve an application' do
+    visit "/admin/applications/#{@application.id}"
+
+    within('#pet-0') do
+      click_on("Approve this pet")
+    end
+
+    within('#pet-1') do
+      click_on("Approve this pet")
+    end
+
+    within('#status') do
+      expect(page).to have_content("Approved")
     end
   end
 end
