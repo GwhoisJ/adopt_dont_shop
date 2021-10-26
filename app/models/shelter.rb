@@ -24,6 +24,14 @@ class Shelter < ApplicationRecord
     joins(pets: :applications).where(applications: {status: "Pending"}).distinct
   end
 
+  def self.find_name(input)
+    Shelter.find_by_sql("SELECT name FROM shelters WHERE id = #{input}").first.name
+  end
+
+  def self.find_address(input)
+    Shelter.find_by_sql("SELECT address FROM shelters WHERE id = #{input}").first.address
+  end
+
   def pet_count
     pets.count
   end
