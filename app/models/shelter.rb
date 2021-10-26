@@ -21,13 +21,7 @@ class Shelter < ApplicationRecord
   end
 
   def self.shelters_with_applications
-    self.select do |shelter|
-      shelter.pets.any? do |pet|
-        pet.applications.any? do |application|
-          application.status == "Pending"
-        end
-      end
-    end
+    joins(pets: :applications).where(applications: {status: "Pending"}).uniq
   end
 
   def pet_count
