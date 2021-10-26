@@ -12,4 +12,23 @@ class Pet < ApplicationRecord
   def self.adoptable
     where(adoptable: true)
   end
+
+  def approved_applications(input)
+    input = input.to_s
+    if approved != nil
+      approved.include?(input)
+    else
+      false
+    end
+  end
+
+  def denied_applications(input)
+    input = input.to_s
+
+    if denied != nil
+      denied.include?(input)
+    else
+      false
+    end
+  end
 end
