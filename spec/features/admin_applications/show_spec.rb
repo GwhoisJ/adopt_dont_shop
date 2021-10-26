@@ -59,4 +59,24 @@ RSpec.describe 'admin application show page' do
       expect(page).to have_content("Approved")
     end
   end
+
+  it 'makes aproved pets not adoptable' do
+    visit "/admin/applications/#{@application.id}"
+
+    within('#pet-0') do
+      click_on("Approve this pet")
+    end
+
+    within('#pet-1') do
+      click_on("Approve this pet")
+    end
+    
+    visit "/pets/#{@pet_1.id}"
+
+    expect(page).to have_content("false")
+    
+    visit "/pets/#{@pet_2.id}"
+
+    expect(page).to have_content("false")
+  end
 end
