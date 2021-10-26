@@ -66,6 +66,18 @@ RSpec.describe Shelter, type: :model do
         expect(Shelter.shelters_with_applications).to_not include(@shelter_3)        
       end
     end
+
+    describe '#find_name' do
+      it 'returns the name of the shelter with given id' do
+        expect(Shelter.find_name(@shelter_1.id)).to eq(@shelter_1.name)
+      end
+    end
+
+    describe '#find_address' do
+      it 'returns the address of the shelter with given id' do
+        expect(Shelter.find_address(@shelter_1.id)).to eq(@shelter_1.address)
+      end
+    end
   end
 
   describe 'instance methods' do
@@ -90,6 +102,12 @@ RSpec.describe Shelter, type: :model do
     describe '.pet_count' do
       it 'returns the number of pets at the given shelter' do
         expect(@shelter_1.pet_count).to eq(3)
+      end
+    end
+
+    describe '.average_age' do
+      it 'returns the average age of the pets' do
+        expect(@shelter_1.average_age).to eq 4.3
       end
     end
   end
