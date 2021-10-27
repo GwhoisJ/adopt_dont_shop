@@ -33,7 +33,19 @@ RSpec.describe Pet, type: :model do
       end
     end
 
-    
+    describe '#pets_with_pending_applicaions_by_shelter' do
+      it 'returns pets that have pending applications for a given shelter' do
+        application = Application.create(name: 'Greg',
+          address: '123 streetname',
+          description: 'I good pet owner',
+          status: 'Pending')
+
+        ApplicationPet.create(application: application, pet: @pet_1)
+        ApplicationPet.create(application: application, pet: @pet_2)
+
+        expect(Pet.pets_with_pending_applications).to eq([@pet_1, @pet_2])
+      end
+    end
   end
 
   describe 'instance methods' do

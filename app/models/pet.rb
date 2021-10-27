@@ -31,4 +31,8 @@ class Pet < ApplicationRecord
       false
     end
   end
+
+  def self.pets_with_pending_applications
+    joins(:applications).where(applications: {status: "Pending"})
+  end
 end
