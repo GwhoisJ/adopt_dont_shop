@@ -34,7 +34,7 @@ class AdminApplicationsController < ApplicationController
   def application_approved
     if @pets.any? {|pet| pet.denied_applications(@application.id)}
       false
-    elsif @pets.all {|pet| pet.approved_applications(@application.id)}
+    elsif @pets.all? {|pet| pet.approved_applications(@application.id)}
       true
     else
       nil

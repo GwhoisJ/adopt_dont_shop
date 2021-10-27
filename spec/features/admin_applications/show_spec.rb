@@ -5,7 +5,7 @@ RSpec.describe 'admin application show page' do
     @application = Application.create(name: 'Greg',
       address: '123 streetname',
       description: 'I good pet owner',
-      status: 'In Progress')
+      status: 'Pending')
 
     @shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
 
@@ -18,11 +18,11 @@ RSpec.describe 'admin application show page' do
 
   it 'can approve a pet' do
     visit "/admin/applications/#{@application.id}"
-
+    
     within('#pet-0') do
       click_on("Approve this pet")
     end
-
+    
     within('#pet-0') do
       expect(page).to_not have_button("Approve this pet")
       expect(page).to_not have_button("Reject this pet")
@@ -32,7 +32,7 @@ RSpec.describe 'admin application show page' do
   
   it 'can reject a pet' do
     visit "/admin/applications/#{@application.id}"
-
+    
     within('#pet-0') do
       click_on("Reject this pet")
     end
@@ -78,5 +78,30 @@ RSpec.describe 'admin application show page' do
     visit "/pets/#{@pet_2.id}"
 
     expect(page).to have_content("false")
+  end
+
+  it 'pets are only adoptable if not on an approved application' do
+    application_2 = Application.create!(name: 'Bob', address: "a", status: "Pending")
+
+    ApplicationPet.create!(application: application_2, pet: @pet_1)
+    
+    visit "/admin/applications/#{@application.id}"
+
+    within('#pet-0') do
+      click_on("Approve this pet")
+    end
+
+    within('#pet-1') do
+      click_on("Approve this pet")
+    end
+
+    visit "/admin/applications/#{application_2.id}"
+
+    within('#pet-0') do
+      expect(page).to have_content("This pet has been approved for adoption.")
+      expect(page).to have_button("Reject this pet")
+
+      expect(page).to_not have_button("Approve this pet")
+    end
   end
 end
