@@ -67,6 +67,12 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+    describe '#order_by_name' do
+      it 'orders the shelters by name' do
+        expect(Shelter.order_by_name).to eq([@shelter_1, @shelter_3, @shelter_2])
+      end
+    end
+
     describe '#find_name' do
       it 'returns the name of the shelter with given id' do
         expect(Shelter.find_name(@shelter_1.id)).to eq(@shelter_1.name)
