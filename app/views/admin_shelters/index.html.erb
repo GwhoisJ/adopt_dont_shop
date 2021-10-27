@@ -1,6 +1,6 @@
 <% @shelters.each_with_index do |shelter, index| %>
   <div id="shelter-<%=index%>">
-    <p><%=shelter.name%></p>
+    <p><a href="/admin/shelters/<%=shelter.id%>"><%=shelter.name%></a></p>
   </div>
 <% end %>
 
@@ -8,6 +8,6 @@
 
 <div id="pending">
   <% @pendings.each do |shelter| %>
-    <p><%= shelter.name %></p>
+    <p><a href="/admin/shelters/<%=shelter.id%>"><%=shelter.name%></a></p>
   <% end %>
 </div>

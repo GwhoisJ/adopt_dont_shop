@@ -8,16 +8,25 @@
     <% elsif pet.denied_applications(@application.id) %>
       Rejected.<br/>
     <% else %>
-      <form action="/admin/applications/<%=@application.id%>">
-          <input type="hidden" id="pet" name="pet" value="<%= pet.id %>" />
-          <input type="hidden" id="approved" name="approved" value="true" />
-          <input type="submit" value="Approve this pet">
-      </form>
-      <form action="/admin/applications/<%=@application.id%>">
-          <input type="hidden" id="pet" name="pet" value="<%= pet.id %>" />
-          <input type="hidden" id="approved" name="approved" value="false" />
-          <input type="submit" value="Reject this pet">
-      </form>
+      <% if pet.adoptable %>
+        <form action="/admin/applications/<%=@application.id%>">
+            <input type="hidden" id="pet" name="pet" value="<%= pet.id %>" />
+            <input type="hidden" id="approved" name="approved" value="true" />
+            <input type="submit" value="Approve this pet">
+        </form>
+        <form action="/admin/applications/<%=@application.id%>">
+            <input type="hidden" id="pet" name="pet" value="<%= pet.id %>" />
+            <input type="hidden" id="approved" name="approved" value="false" />
+            <input type="submit" value="Reject this pet">
+        </form>
+      <% else %>
+        This pet has been approved for adoption.
+        <form action="/admin/applications/<%=@application.id%>">
+            <input type="hidden" id="pet" name="pet" value="<%= pet.id %>" />
+            <input type="hidden" id="approved" name="approved" value="false" />
+            <input type="submit" value="Reject this pet">
+        </form>
+      <% end %>
     <% end %><br/>
   </div>
 <% end %>

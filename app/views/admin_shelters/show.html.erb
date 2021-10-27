@@ -2,5 +2,9 @@
 <h3><%= @address %></h3>
 
 <h4>Statistics:</h4>
-Average age of pets: <%= @shelter.average_age %>
+<% if !@shelter.pets.empty? %>
+  Average age of pets: <%= @shelter.average_age %>
+<% else %>
+  Average age of pets: 0
+<% end %>
 Number of adoptable pets: <%= @shelter.adoptable_pets.count %>

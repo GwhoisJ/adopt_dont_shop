@@ -50,4 +50,14 @@ RSpec.describe 'Admin Shelters index' do
       expect(page).to_not have_content(shelter_3.name)
     end
   end
+
+  it 'links to show page from shelter names' do
+    shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+
+    visit '/admin/shelters'
+
+    click_link("#{shelter_1.name}")
+
+    expect(current_path).to eq("/admin/shelters/#{shelter_1.id}")
+  end
 end
