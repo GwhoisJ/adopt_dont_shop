@@ -9,3 +9,17 @@
 <% end %>
 Number of adoptable pets: <%= @shelter.adoptable_pets.count %>
 Number of adopted pets: <%= @shelter.adopted_pets_count %>
+
+<h4>Action Required:</h4>
+
+<% @shelter.pets.pets_with_pending_applications.each_with_index do |pet, index| %>
+  <div id="pet-<%=index%>">
+    <p><%= pet.name %>: 
+    <% pet.applications.each do |application| %>
+      <%if application.status == "Pending"%>
+        <a href="/admin/applications/<%=application.id%>">Application <%=application.id%> </a>
+      <% end %>
+    <% end %>
+    </p>
+  </div>
+<% end %>
