@@ -32,4 +32,46 @@ RSpec.describe 'admin shelters show page' do
 
     expect(page).to have_content('Number of adopted pets: 0')
   end
+
+  it 'lists the pets with pending applications' do
+    application = Application.create(name: 'Greg',
+      address: '123 streetname',
+      description: 'I good pet owner',
+      status: 'Pending')
+
+    pet_3 = Pet.create(name: 'Scooby', age: 2, breed: 'Great Dane', adoptable: true, shelter_id: @shelter.id)
+    pet_4 = Pet.create(name: 'Bob', age: 5, breed: 'Big Boy', adoptable: true, shelter_id: @shelter.id)
+
+    ApplicationPet.create(application: application, pet: pet_3)
+    ApplicationPet.create(application: application, pet: pet_4)
+
+    visit "admin/shelters/#{@shelter.id}"
+
+    expect(page).to have_content(pet_3.name)
+    expect(page).to have_content(pet_4.name)
+
+    expect(page).to_not have_content(@pet_1.name)
+    expect(page).to_not have_content(@pet_1.name)
+  end
+
+  it 'links to admin application show page' do
+    application = Application.create(name: 'Greg',
+      address: '123 streetname',
+      description: 'I good pet owner',
+      status: 'Pending')
+
+    pet_3 = Pet.create(name: 'Scooby', age: 2, breed: 'Great Dane', adoptable: true, shelter_id: @shelter.id)
+    pet_4 = Pet.create(name: 'Bob', age: 5, breed: 'Big Boy', adoptable: true, shelter_id: @shelter.id)
+
+    ApplicationPet.create(application: application, pet: pet_3)
+    ApplicationPet.create(application: application, pet: pet_4)
+
+    visit "admin/shelters/#{@shelter.id}"
+    
+    within('#pet-0') do
+      click_link("Application #{application.id}")
+    end
+
+    expect(current_path).to eq "/admin/applications/#{application.id}"
+  end
 end
