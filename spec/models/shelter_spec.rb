@@ -67,6 +67,12 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+    describe '#order_by_name' do
+      it 'orders the shelters by name' do
+        expect(Shelter.order_by_name).to eq([@shelter_1, @shelter_3, @shelter_2])
+      end
+    end
+
     describe '#find_name' do
       it 'returns the name of the shelter with given id' do
         expect(Shelter.find_name(@shelter_1.id)).to eq(@shelter_1.name)
@@ -108,6 +114,13 @@ RSpec.describe Shelter, type: :model do
     describe '.average_age' do
       it 'returns the average age of the pets' do
         expect(@shelter_1.average_age).to eq 4.3
+      end
+    end
+
+    describe '.adopted_pets_count' do
+      it 'returns the number of pets that were adopted' do
+        expect(@shelter_1.adopted_pets_count).to eq 1
+        expect(@shelter_3.adopted_pets_count).to eq 0
       end
     end
   end

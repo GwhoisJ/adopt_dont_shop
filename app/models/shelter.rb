@@ -20,6 +20,10 @@ class Shelter < ApplicationRecord
     find_by_sql("SELECT * FROM shelters ORDER BY name DESC")
   end
 
+  def self.order_by_name
+    order(:name)
+  end
+
   def self.shelters_with_applications
     joins(pets: :applications).where(applications: {status: "Pending"}).distinct
   end
@@ -50,5 +54,9 @@ class Shelter < ApplicationRecord
 
   def average_age
     pets.average(:age).round(1)
+  end
+
+  def adopted_pets_count
+    pets.where(adoptable: false).count
   end
 end

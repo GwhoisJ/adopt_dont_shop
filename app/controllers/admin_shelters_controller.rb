@@ -1,7 +1,7 @@
 class AdminSheltersController < ApplicationController
   def index
     @shelters = Shelter.order_by_reverse_name
-    @pendings = Shelter.shelters_with_applications
+    @pendings = Shelter.shelters_with_applications.order_by_name
   end
 
   def show

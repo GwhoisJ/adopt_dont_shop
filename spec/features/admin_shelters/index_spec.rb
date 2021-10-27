@@ -60,4 +60,33 @@ RSpec.describe 'Admin Shelters index' do
 
     expect(current_path).to eq("/admin/shelters/#{shelter_1.id}")
   end
+
+  it 'lists the shelters wiht pending applications in order by name' do
+    shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+    shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
+    shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver, CO', foster_program: true, rank: 10)
+
+    pet_1 = shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: false)
+    pet_2 = shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
+    pet_3 = shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
+    pet_4 = shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 5, adoptable: true)
+  
+    application_1 = Application.create(name: 'Greg',
+                                      address: '123 streetname',
+                                      description: 'I good pet owner',
+                                      status: 'Pending')
+    application_2 = Application.create(name: 'Bob',
+                                      address: '123 streetname',
+                                      description: "'cause",
+                                      status: 'Pending')
+
+    ApplicationPet.create(application: application_1, pet: pet_2)
+    ApplicationPet.create(application: application_2, pet: pet_3)
+
+    visit '/admin/shelters'
+
+    within('#pending') do
+      expect("Aurora shelter").to appear_before("Fancy pets of Colorado")
+    end
+  end
 end
